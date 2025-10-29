@@ -1,0 +1,8 @@
+{
+  "vocab_size": 22693,
+  "vector_size": 100,
+  "window": 5,
+  "min_count": 5,
+  "epochs": 5,
+  "sg": 0
+}

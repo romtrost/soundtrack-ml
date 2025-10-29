@@ -1,0 +1,21 @@
+# Configuration for track-playlist embedding training
+
+# Data paths
+data:
+  raw_data_path: "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/smart_shuffle/data/raw/track_playlist"
+  processed_data_path: "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/smart_shuffle/data/processed/track_playlist"
+  ml_train_data_path: "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/smart_shuffle/data/processed/track_playlist/playlist_sentences.pkl"
+  model_save_path: "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/smart_shuffle/models/track_playlist"
+
+# Data transformation settings
+data_transform:
+  max_files: 10  # Number of playlist files to process
+
+# Word2Vec model parameters
+model:
+  vector_size: 100  # Dimensionality of word vectors
+  window: 5  # Maximum distance between current and predicted word
+  min_count: 5  # Ignores words with frequency lower than this
+  workers: 4  # Number of worker threads
+  epochs: 5  # Number of training epochs
+  sg: 0  # Training algorithm: 0 for CBOW, 1 for skip-gram
