@@ -1,0 +1,31 @@
+qdrant:
+  url: "https://3ed0dfdc-3f3f-4424-9123-87025b9842df.us-east4-0.gcp.cloud.qdrant.io"
+  api_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.cnfVaM94fTBzg_LyAnq_Ip1mGLX7WlCy44QqoJNJhzY"
+  timeout: 60
+  collections:
+    track: 
+      sparse: "track_embeddings_bm25"
+    album: 
+      sparse: "album_embeddings_bm25"
+    artist: 
+      sparse: "artist_embeddings_bm25"
+    playlist: 
+      sparse: "playlist_embeddings_bm25"
+    combined: 
+      sparse: "combined_embeddings_bm25"
+
+bm25:
+  ngram_range: [3, 5]
+  vocab_path: 
+    "track": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/track/models/vocab.pkl"
+    "album": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/album/models/vocab.pkl"
+    "artist": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/artist/models/vocab.pkl"
+    "playlist": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/playlist/models/vocab.pkl"
+    "combined": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/combined/models/vocab.pkl"
+  bm25_model_path: 
+    "track": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/track/models/bm25_model.pkl"
+    "album": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/album/models/bm25_model.pkl"
+    "artist": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/artist/models/bm25_model.pkl"
+    "playlist": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/playlist/models/bm25_model.pkl"
+    "combined": "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/embeddings/sparse/combined/models/bm25_model.pkl"
+    

@@ -1,0 +1,18 @@
+data:
+  data_path: "/home/romain/Documents/Personal/Projects/Soundtrack_ML/soundtrack-ml/search/data/processed/track_playlist/tracks_data.csv"
+
+output:
+  output_path: "models"
+  corpus_path: "models/corpus.pkl"
+  bm25_model_path: "models/bm25_model.pkl"
+  vocab_path: "models/vocab.pkl"
+
+bm25:
+  ngram_range: [3, 5]
+
+qdrant:
+  collection_name: "artist_embeddings_bm25"
+  url: "https://3ed0dfdc-3f3f-4424-9123-87025b9842df.us-east4-0.gcp.cloud.qdrant.io"
+  api_key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.cnfVaM94fTBzg_LyAnq_Ip1mGLX7WlCy44QqoJNJhzY"
+  timeout: 60
+  upsert_batch_size: 1000
