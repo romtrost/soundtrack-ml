@@ -1,0 +1,42 @@
+Based on Spotify's engineering and research publications, they use a sophisticated hybrid system that incorporates both a machine learning model for intent classification before the search and a "fan-out" approach.
+
+It's not an either/or scenario; the ML model's initial intent classification is what guides the fan-out.
+
+Here’s a breakdown of how it works:
+
+1. 🤖 ML Model for Query Intent (The "Router")
+Yes, Spotify uses a machine learning model—specifically, systems that include Large Language Models (LLMs)—to act as an intelligent "router" or "classifier." This happens as the very first step when you hit "search."
+
+What it does: This model's job is to understand the intent behind your query. It classifies what you're likely looking for. For example, it distinguishes between:
+
+Focused/Narrow Intent: A specific query like "Katy Perry Fireworks" (you want one specific song).
+
+Broad/Exploratory Intent: A vague query like "relaxing music" or "new indie rock" (you're open to discovery).
+
+Mixed Intent: A query like "Kanye" could mean the artist, a song called "Kanye," or playlists featuring him.
+
+Content Type Intent: A query like "morning commute" likely implies a podcast or a driving playlist, not a single track.
+
+2. 🚀 The "Fan-Out" (The "Tool Calls")
+Once the ML router has classified your intent, it doesn't just run one search. It initiates a "fan-out," making multiple, parallel calls to different specialized backend systems.
+
+This is what Spotify's "Parallel Fusion Router" architecture is designed for. The intent classification tells the system which tools to call.
+
+For example, if your query is "new indie rock":
+
+The ML router identifies the intent as: exploratory + new releases + genre-specific.
+
+It then "fans out" requests to several systems at once:
+
+Vector Search: To find songs, artists, and playlists that are semantically related to "indie rock," even if they don't use those exact keywords.
+
+Keyword/Metadata Search: To find items with "indie rock" in their title, genre tags, or description.
+
+Personalized Recommender: To find new indie rock releases that you specifically might like based on your listening history.
+
+Recency Filter: To find items released within the last few weeks.
+
+3. 🏁 Fusing the Results
+Finally, the system gathers the results from all these parallel searches (vector, keyword, recommendations, etc.) and uses another ranking model to merge them into the single, coherent search results page you see. This is why you can see a mix of artists, songs, playlists, and podcasts all on one page, all relevant to your query.
+
+In short, Spotify uses an ML model first to decide the query intent, and then uses that intent to execute a fan-out to multiple search systems (including vector search) in parallel.

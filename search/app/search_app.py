@@ -12,7 +12,7 @@ logger = setup_logger(__name__)
 
 class SearchRequest(BaseModel):
     query: str
-    #search_types: list[str] | None = None  # e.g., ["track", "album"]
+    search_types: list[str] | None = None  # e.g., ["track", "album"]
     #top_k: int = 10
 
 class SearchResponse(BaseModel):

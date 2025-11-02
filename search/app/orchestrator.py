@@ -49,7 +49,7 @@ class SearchOrchestrator:
         # Step 0 : Parse/preprocess query
         #preprocessed_query = self._preprocess_query(query)
 
-        # Step 1 : Decipher query intent
+        # Step 1 : (Router) Decipher query intent, Most likely using an LLM call (Spotify: Parallel Fusion Router)
         #query_intent, search_types, tools_to_use = self._decipher_query_intent(preprocessed_query)
 
         # TODO: continue
@@ -62,16 +62,33 @@ class SearchOrchestrator:
 
         # Step 3 : Execute searches in parallel
         search_results = self._retrieve_results(query, search_types, top_k)
+
+        # Step 3.1: Decide query intent from search results
+        query_intent = self._decide_query_intent(search_results)
         
         # Step 4 : Rank results
         #ranked_results = self._rank_results(search_results, top_k)
 
         # Step 5 : Filter results
         #filtered_results = self._filter_results(ranked_results, top_k)
+
+        """
+        Final result should be like:
+        {
+            "top_results": [artist1, playlist1, track1, etc...],
+            "top_tracks": [track1, track2, track3, etc...],
+            "top_artists": [artist1, artist2, artist3, etc...],
+            "top_albums": [album1, album2, album3, etc...],
+            "top_playlists": [playlist1, playlist2, playlist3, etc...],
+            "search_types": search_types,
+            "raw_results": search_results,
+        }
+
+        """
         
         return {
+            "query_intent": query_intent,
             "raw_results": search_results,
-            #"ranked_results": ranked_results,
             "search_types": search_types
         }
 
@@ -98,6 +115,55 @@ class SearchOrchestrator:
         total_elapsed_time = time.time() - total_start_time
         logger.info(f"Total search time: {total_elapsed_time:.3f} seconds")
         return results
+
+    def _decide_query_intent(self, search_results: Dict[str, List[Dict]]) -> Dict[str, Any]:
+        """
+        Compare relative "goodness" across collections without needing full distributions.
+        Uses: (top_score - avg_of_top_k) / top_score as a signal of exceptionality.
+        Returns all intent options ordered by most likely to least.
+        """
+        exceptionality_scores = {}
+        
+        for search_type, results in search_results.items():
+            if len(results) < 3:  # Need at least a few results
+                exceptionality_scores[search_type] = 0.0
+                continue
+            
+            scores = [r["score"] for r in results]
+            top_score = scores[0]
+            
+            # How exceptional is top-1 compared to top-k average?
+            avg_top_k = sum(scores) / len(scores)
+            
+            if top_score > 0:
+                # Relative gap: higher = top result is more exceptional
+                exceptionality = (top_score - avg_top_k) / top_score
+            else:
+                exceptionality = 0.0
+            
+            # Also consider the drop-off rate (confidence signal)
+            if len(scores) >= 2:
+                drop_off = (top_score - scores[1]) / top_score if top_score > 0 else 0.0
+            else:
+                drop_off = 1.0
+            
+            # Combined: exceptionality (how much better than average) + confidence (sharp drop-off)
+            exceptionality_scores[search_type] = 0.7 * exceptionality + 0.3 * drop_off
+        
+        if not exceptionality_scores:
+            return {
+                "predicted_intent": "track",
+                "ranked_intents": [{"intent": "track", "score": 0.0}]
+            }
+        
+        # Sort all intents by score (most likely to least)
+        ranked_intents = sorted(
+            exceptionality_scores.items(), 
+            key=lambda x: x[1], 
+            reverse=True
+        )
+        
+        return [intent for intent, score in ranked_intents]
 
     def _decide_search_types(self, query: str) -> List[str]:
         """
