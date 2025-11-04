@@ -1,8 +1,8 @@
 {
-  "vocab_size": 22693,
-  "vector_size": 100,
-  "window": 5,
+  "vocab_size": 133426,
+  "vector_size": 256,
+  "window": 10,
   "min_count": 5,
-  "epochs": 5,
+  "epochs": 10,
   "sg": 0
 }

@@ -48,7 +48,9 @@ smart_shuffle/
 │   │   │   ├── models/
 │   │   │   ├── train_w2v.py
 │   │   │   ├── evaluate_w2v.py
-│   │   │   └── config.yaml
+│   │   │   ├── upload_w2v.py
+│   │   │   ├── upsert_emb.py
+│   │   │   └── config.yaml        # whenever you want to train a new model, update tings here like train dates, model_name, etc
 │   │   └── genre_emb/
 │   │       ├── data/
 │   │       │   ├── train.csv
