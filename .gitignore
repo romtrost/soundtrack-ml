@@ -13,7 +13,7 @@ env/
 .ipynb_checkpoints
 *.ipynb_checkpoints
 
-# Large binary files
+# Large binary files - ML models and data
 *.pkl
 *.pickle
 *.npy
@@ -23,7 +23,7 @@ env/
 *.tfrecord
 *.model
 
-# Data and models (except configs)
+# Data and models directories (except configs)
 data/raw/
 data/processed/
 models/*.npy
@@ -39,3 +39,7 @@ models/*.model
 # OS
 .DS_Store
 Thumbs.db
+
+# Git LFS
+.gitattributes
+
